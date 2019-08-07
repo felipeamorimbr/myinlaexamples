@@ -1,6 +1,6 @@
 library(INLA)
 library(brinla)
-
+library(MASS)
 #Creating 
 
 usair.formula1 <- SO2 ~ negtemp + manuf + wind + precip + days #Model formula
@@ -35,3 +35,13 @@ cars.inla2 <- inla(dist ~ speed, data = cars,
                    control.fixed = list(mean = list(speed = 10), prec = 1),
                    control.family = list (hyper = list(prec = list(prior = "gaussian", param = c(0,1)))))
 summary(cars.inla2)
+
+#Regressao linear robusta
+cars.rlm <- rlm(dist ~ speed, data = cars)
+summary(cars.rlm)
+#INLA com student-t
+cars.inla3 <- inla(dist~speed,
+                   data = cars,
+                   family = "t",
+                   control.compute = list(dic = TRUE, cpo = TRUE))
+summary(cars.inla3)
