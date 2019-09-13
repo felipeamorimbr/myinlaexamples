@@ -45,3 +45,16 @@ cars.inla3 <- inla(dist~speed,
                    family = "t",
                    control.compute = list(dic = TRUE, cpo = TRUE))
 summary(cars.inla3)
+
+#Chanching de cdf
+usair.inla3 <- inla(usair.formula1, data = usair, control.compute = list(dic = TRUE, cpo = TRUE),
+                    control.fixed = list(cdf = c(-1)))  #Cdf must be a vector with the values to calculate the comulative
+                                                        #for fixed values
+
+#Changing the expaction factor stategie
+dados <- read.csv2("ex-database.csv", header = T)
+dados.inla1 <- inla(X1 ~ X2 + X2 + X3 + X4, data = dados)
+dados.inla2 <- inla(X1 ~ X2 + X2 + X3 + X4, data = dados, control.fixed = list(expand.factor.strategy = "inla"))
+
+#correlation.matrix = TRUE
+usair.inla4 <- inla(usair.formula1, data = usair, control.fixed = list(correlation.matrix = TRUE))
